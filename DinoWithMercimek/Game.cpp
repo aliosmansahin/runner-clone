@@ -5,10 +5,15 @@
 Game::Game()
 {
 	InitWindow(windowWidth, windowHeight, "Dino with Mercimek");
+
+	player = new Player();
 }
 
 Game::~Game()
 {
+	if(player)
+		delete player;
+
 	CloseWindow();
 }
 
@@ -30,8 +35,10 @@ void Game::Run()
 
 void Game::Update()
 {
+	player->Update();
 }
 
 void Game::Draw()
 {
+	player->Draw();
 }

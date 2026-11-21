@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Player.h"
+
 class Game
 {
 public:
@@ -14,5 +16,8 @@ public:
 private:
 	int windowWidth = 800;
 	int windowHeight = 600;
+
+private:
+	Player* player = nullptr;
 };
 
