@@ -6,7 +6,10 @@ Game::Game()
 {
 	InitWindow(windowWidth, windowHeight, "Dino with Mercimek");
 
-	player = new Player();
+	int groundSize = 20;
+	int playerMaxY = windowHeight - groundSize;
+
+	player = new Player(playerMaxY);
 }
 
 Game::~Game()

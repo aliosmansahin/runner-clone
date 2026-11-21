@@ -1,13 +1,11 @@
 #pragma once
 
-struct Vec2 {
-	float x, y;
-};
+#include "Math.h"
 
 class Player
 {
 public:
-	Player();
+	Player(float maxY);
 	~Player();
 
 public:
@@ -15,7 +13,16 @@ public:
 	void Draw();
 
 private:
+	void UpdatePosition();
+	void HandleKeyInput();
+
+private:
 	Vec2 pos;
 	Vec2 size;
+	Vec2 vel;
+	Vec2 gravity;
+
+	float maxY;
+	Vec2 jump;
 };
 

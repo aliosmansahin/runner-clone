@@ -2,10 +2,16 @@
 
 #include <raylib.h>
 
-Player::Player()
+Player::Player(float maxY)
 {
-	pos = { 0.0f, 0.0f };
-	size = { 50.0f, 100.0f };
+	size = Vec2(50.0f, 100.0f);
+	pos = Vec2(100.0f, maxY - size.y);
+	jump = Vec2(0.0f, 500.0f);
+
+	vel = 0.0f;
+	gravity = Vec2(0.0f, 1000.0f);
+
+	this->maxY = maxY;
 }
 
 Player::~Player()
@@ -14,9 +20,32 @@ Player::~Player()
 
 void Player::Update()
 {
+	HandleKeyInput();
+	UpdatePosition();
 }
 
 void Player::Draw()
 {
 	DrawRectangle(pos.x, pos.y, size.x, size.y, WHITE);
+}
+
+void Player::UpdatePosition()
+{
+	vel += gravity * GetFrameTime();
+
+	vel.Clamp(0.0f, 0.0f, -500.0f, 500.0f);
+
+	pos += vel * GetFrameTime();
+
+	if (pos.y + size.y > maxY) {
+		pos.y = maxY - size.y;
+		vel = 0.0f;
+	}
+}
+
+void Player::HandleKeyInput()
+{
+	if (IsKeyPressed(KEY_SPACE)) {
+		vel = -jump;
+	}
 }
