@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Player.h"
+#include "Enemy.h"
+
+#include <deque>
 
 class Game
 {
@@ -14,10 +17,19 @@ public:
 	void Draw();
 
 private:
+	void AddEnemy();
+
+private:
 	int windowWidth = 800;
 	int windowHeight = 600;
 
 private:
+	int groundSize = 20;
+	int groundY;
+	int enemyStartX;
+
+private:
 	Player* player = nullptr;
+	std::deque<Enemy*> enemies;
 };
 

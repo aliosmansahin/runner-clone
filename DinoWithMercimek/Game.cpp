@@ -2,14 +2,18 @@
 
 #include <raylib.h>
 
+#include "Cactus.h"
+
 Game::Game()
 {
 	InitWindow(windowWidth, windowHeight, "Dino with Mercimek");
 
-	int groundSize = 20;
-	int playerMaxY = windowHeight - groundSize;
+	groundY = windowHeight - groundSize;
+	enemyStartX = windowWidth + 100;
 
-	player = new Player(playerMaxY);
+	player = new Player(groundY);
+
+	AddEnemy();
 }
 
 Game::~Game()
@@ -39,9 +43,24 @@ void Game::Run()
 void Game::Update()
 {
 	player->Update();
+
+	for (auto& enemy : enemies) {
+		enemy->Update();
+	}
 }
 
 void Game::Draw()
 {
 	player->Draw();
+
+	for (auto& enemy : enemies) {
+		enemy->Draw();
+	}
+}
+
+void Game::AddEnemy()
+{
+	Enemy* enemy = new Cactus(enemyStartX, groundY);
+
+	enemies.push_back(enemy);
 }
