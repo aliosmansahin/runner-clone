@@ -2,6 +2,9 @@
 
 #include <raylib.h>
 
+#include <stdio.h>
+#include <time.h>
+
 #include "Cactus.h"
 
 Game::Game()
@@ -13,7 +16,10 @@ Game::Game()
 
 	player = new Player(groundY);
 
-	AddEnemy();
+	srand(time(nullptr));
+
+	lastAddEnemyTime = GetTime();
+	nextEnemyCooldown = 0.0;
 }
 
 Game::~Game()
@@ -42,6 +48,9 @@ void Game::Run()
 
 void Game::Update()
 {
+	HandleEnemySpawn();
+	HandleEnemyDespawn();
+
 	player->Update();
 
 	for (auto& enemy : enemies) {
@@ -63,4 +72,30 @@ void Game::AddEnemy()
 	Enemy* enemy = new Cactus(enemyStartX, groundY);
 
 	enemies.push_back(enemy);
+}
+
+void Game::HandleEnemySpawn()
+{
+	double currentTime = GetTime();
+
+	double deltaTime = currentTime - lastAddEnemyTime;
+
+	if (deltaTime <= nextEnemyCooldown) return;
+
+	AddEnemy();
+
+	/* Calculate next enemy cooldown */
+	nextEnemyCooldown = static_cast<double>(rand() % 3 + 1);
+
+	lastAddEnemyTime = currentTime;
+}
+
+void Game::HandleEnemyDespawn()
+{
+	Enemy* enemy = enemies.front();
+
+	if (enemy->ShouldDespawn()) {
+		delete enemy;
+		enemies.pop_front();
+	}
 }

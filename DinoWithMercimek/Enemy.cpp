@@ -11,3 +11,8 @@ void Enemy::Update()
 {
 	pos.x -= speed * GetFrameTime();
 }
+
+bool Enemy::ShouldDespawn(float minX)
+{
+	return pos.x < minX - size.x - 10.0f;
+}

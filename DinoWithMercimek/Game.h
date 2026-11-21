@@ -18,6 +18,8 @@ public:
 
 private:
 	void AddEnemy();
+	void HandleEnemySpawn();
+	void HandleEnemyDespawn();
 
 private:
 	int windowWidth = 800;
@@ -27,6 +29,10 @@ private:
 	int groundSize = 20;
 	int groundY;
 	int enemyStartX;
+
+private:
+	double lastAddEnemyTime;
+	double nextEnemyCooldown;
 
 private:
 	Player* player = nullptr;

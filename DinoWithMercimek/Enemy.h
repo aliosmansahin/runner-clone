@@ -11,6 +11,9 @@ public:
 	void Update();
 	virtual void Draw() = 0;
 	
+public:
+	bool ShouldDespawn(float minX = 0.0f);
+	
 protected:
 	Vec2 pos;
 	Vec2 size;
