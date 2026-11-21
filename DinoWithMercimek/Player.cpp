@@ -30,6 +30,16 @@ void Player::Draw()
 	DrawRectangle(pos.x, pos.y, size.x, size.y, WHITE);
 }
 
+Vec2 Player::GetMin()
+{
+	return pos;
+}
+
+Vec2 Player::GetMax()
+{
+	return (pos + size);
+}
+
 void Player::UpdatePosition()
 {
 	vel += gravity * GetFrameTime();

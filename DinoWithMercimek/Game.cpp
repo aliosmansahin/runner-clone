@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <time.h>
+#include <iostream>
 
 #include "Cactus.h"
 
@@ -56,6 +57,8 @@ void Game::Update()
 	for (auto& enemy : enemies) {
 		enemy->Update();
 	}
+
+	HandleCollisions();
 }
 
 void Game::Draw()
@@ -97,5 +100,20 @@ void Game::HandleEnemyDespawn()
 	if (enemy->ShouldDespawn()) {
 		delete enemy;
 		enemies.pop_front();
+	}
+}
+
+void Game::HandleCollisions()
+{
+	for (const auto& enemy : enemies) {
+		if (player->GetMax().x >= enemy->GetMin().x &&
+			player->GetMin().x <= enemy->GetMax().x &&
+			player->GetMax().y >= enemy->GetMin().y &&
+			player->GetMin().y <= enemy->GetMax().y) {
+
+			/* Game over */
+
+			std::cout << "Collision" << std::endl;
+		}
 	}
 }

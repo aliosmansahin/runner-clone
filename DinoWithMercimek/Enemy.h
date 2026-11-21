@@ -13,6 +13,10 @@ public:
 	
 public:
 	bool ShouldDespawn(float minX = 0.0f);
+
+public:
+	Vec2 GetMin();
+	Vec2 GetMax();
 	
 protected:
 	Vec2 pos;

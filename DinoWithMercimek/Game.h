@@ -20,6 +20,7 @@ private:
 	void AddEnemy();
 	void HandleEnemySpawn();
 	void HandleEnemyDespawn();
+	void HandleCollisions();
 
 private:
 	int windowWidth = 800;

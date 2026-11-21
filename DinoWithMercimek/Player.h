@@ -12,6 +12,10 @@ public:
 	void Update();
 	void Draw();
 
+public:
+	Vec2 GetMin();
+	Vec2 GetMax();
+
 private:
 	void UpdatePosition();
 	void HandleKeyInput();
