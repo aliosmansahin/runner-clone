@@ -24,5 +24,6 @@ private:
 
 	float maxY;
 	Vec2 jump;
+	bool isGrounded;
 };
 

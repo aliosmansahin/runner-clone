@@ -12,6 +12,7 @@ Player::Player(float maxY)
 	gravity = Vec2(0.0f, 1000.0f);
 
 	this->maxY = maxY;
+	this->isGrounded = true;
 }
 
 Player::~Player()
@@ -40,12 +41,16 @@ void Player::UpdatePosition()
 	if (pos.y + size.y > maxY) {
 		pos.y = maxY - size.y;
 		vel = 0.0f;
+		isGrounded = true;
 	}
 }
 
 void Player::HandleKeyInput()
 {
 	if (IsKeyPressed(KEY_SPACE)) {
-		vel = -jump;
+		if (isGrounded) {
+			vel = -jump;
+			isGrounded = false;
+		}
 	}
 }
