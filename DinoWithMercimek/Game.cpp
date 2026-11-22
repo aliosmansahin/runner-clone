@@ -30,6 +30,10 @@ Game::~Game()
 	if(player)
 		delete player;
 
+	for (size_t i = 0; i < enemies.size(); ++i) {
+		delete enemies[i];
+	}
+
 	CloseWindow();
 }
 
