@@ -21,6 +21,8 @@ Game::Game()
 
 	lastAddEnemyTime = GetTime();
 	nextEnemyCooldown = 0.0;
+
+	stage = GameStage::MENU;
 }
 
 Game::~Game()
@@ -49,16 +51,23 @@ void Game::Run()
 
 void Game::Update()
 {
-	HandleEnemySpawn();
-	HandleEnemyDespawn();
-
-	player->Update();
-
-	for (auto& enemy : enemies) {
-		enemy->Update();
+	if (stage == GameStage::MENU || stage == GameStage::GAMEOVER) {
+		if (IsKeyPressed(KEY_SPACE)) {
+			StartGame();
+		}
 	}
+	else {
+		HandleEnemySpawn();
+		HandleEnemyDespawn();
 
-	HandleCollisions();
+		player->Update();
+
+		for (auto& enemy : enemies) {
+			enemy->Update();
+		}
+
+		HandleCollisions();
+	}
 }
 
 void Game::Draw()
@@ -67,6 +76,13 @@ void Game::Draw()
 
 	for (auto& enemy : enemies) {
 		enemy->Draw();
+	}
+
+	if (stage == GameStage::GAMEOVER) {
+		DrawText("Game Over", 0, 0, 50, BLUE);
+	}
+	else if (stage == GameStage::MENU) {
+		DrawText("Press Space to Play", 0, 0, 30, GREEN);
 	}
 }
 
@@ -111,9 +127,35 @@ void Game::HandleCollisions()
 			player->GetMax().y >= enemy->GetMin().y &&
 			player->GetMin().y <= enemy->GetMax().y) {
 
-			/* Game over */
-
-			std::cout << "Collision" << std::endl;
+			GameOver();
 		}
 	}
+}
+
+void Game::StartGame()
+{
+	/* Reset Player */
+
+	if (player)
+		delete player;
+
+	player = new Player(groundY);
+
+	/* Reset enemies */
+
+	for (size_t i = 0; i < enemies.size(); ++i) {
+		delete enemies[i];
+	}
+
+	enemies.clear();
+
+	lastAddEnemyTime = GetTime();
+	nextEnemyCooldown = 0.0;
+
+	stage = GameStage::PLAYING;
+}
+
+void Game::GameOver()
+{
+	stage = GameStage::GAMEOVER;
 }

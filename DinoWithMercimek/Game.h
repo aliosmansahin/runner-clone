@@ -5,6 +5,12 @@
 
 #include <deque>
 
+enum class GameStage {
+	MENU,
+	PLAYING,
+	GAMEOVER
+};
+
 class Game
 {
 public:
@@ -21,6 +27,8 @@ private:
 	void HandleEnemySpawn();
 	void HandleEnemyDespawn();
 	void HandleCollisions();
+	void StartGame();
+	void GameOver();
 
 private:
 	int windowWidth = 800;
@@ -38,5 +46,6 @@ private:
 private:
 	Player* player = nullptr;
 	std::deque<Enemy*> enemies;
+	GameStage stage;
 };
 
