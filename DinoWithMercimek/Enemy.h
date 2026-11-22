@@ -17,6 +17,11 @@ public:
 public:
 	Vec2 GetMin();
 	Vec2 GetMax();
+
+	bool IsCheckForScore() const { return checkedForScore; }
+
+public:
+	void SetCheckedForScore() { checkedForScore = true; }
 	
 protected:
 	Vec2 pos;
@@ -24,5 +29,8 @@ protected:
 
 private:
 	float speed = 300.0f;
+
+private:
+	bool checkedForScore = false;
 };
 

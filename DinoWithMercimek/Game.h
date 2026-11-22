@@ -27,6 +27,7 @@ private:
 	void HandleEnemySpawn();
 	void HandleEnemyDespawn();
 	void HandleCollisions();
+	void HandleScoreChecks();
 	void StartGame();
 	void GameOver();
 
@@ -47,5 +48,8 @@ private:
 	Player* player = nullptr;
 	std::deque<Enemy*> enemies;
 	GameStage stage;
+
+private:
+	int score;
 };
 

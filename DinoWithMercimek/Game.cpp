@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <iostream>
+#include <string>
 
 #include "Cactus.h"
 
@@ -23,6 +24,8 @@ Game::Game()
 	nextEnemyCooldown = 0.0;
 
 	stage = GameStage::MENU;
+
+	score = 0;
 }
 
 Game::~Game()
@@ -71,6 +74,7 @@ void Game::Update()
 		}
 
 		HandleCollisions();
+		HandleScoreChecks();
 	}
 }
 
@@ -87,6 +91,12 @@ void Game::Draw()
 	}
 	else if (stage == GameStage::MENU) {
 		DrawText("Press Space to Play", 0, 0, 30, GREEN);
+	}
+
+	if (stage == GameStage::PLAYING || stage == GameStage::GAMEOVER) {
+		std::string scoreStr = "Score: " + std::to_string(score);
+
+		DrawText(scoreStr.c_str(), 0, 50, 30, WHITE);
 	}
 }
 
@@ -136,6 +146,18 @@ void Game::HandleCollisions()
 	}
 }
 
+void Game::HandleScoreChecks()
+{
+	for (auto& enemy : enemies) {
+		if (!enemy->IsCheckForScore()) {
+			if (player->GetMin().x > enemy->GetMax().x) {
+				score++;
+				enemy->SetCheckedForScore();
+			}
+		}
+	}
+}
+
 void Game::StartGame()
 {
 	/* Reset Player */
@@ -155,6 +177,8 @@ void Game::StartGame()
 
 	lastAddEnemyTime = GetTime();
 	nextEnemyCooldown = 0.0;
+
+	score = 0;
 
 	stage = GameStage::PLAYING;
 }
