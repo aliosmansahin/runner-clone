@@ -13,6 +13,9 @@ Player::Player(float maxY)
 
 	this->maxY = maxY;
 	this->isGrounded = true;
+	this->maxDiffYToBufferJump = 50.0f;
+	this->jumpBuffered = false;
+	this->performJump = false;
 }
 
 Player::~Player()
@@ -52,15 +55,27 @@ void Player::UpdatePosition()
 		pos.y = maxY - size.y;
 		vel = 0.0f;
 		isGrounded = true;
+		if (jumpBuffered) {
+			performJump = true;
+			jumpBuffered = false;
+		}
 	}
 }
 
 void Player::HandleKeyInput()
 {
-	if (IsKeyPressed(KEY_SPACE)) {
+	if (performJump || IsKeyPressed(KEY_SPACE)) {
 		if (isGrounded) {
 			vel = -jump;
 			isGrounded = false;
 		}
+		else {
+			int diffY = maxY - (pos.y + size.y);
+
+			if (diffY < maxDiffYToBufferJump) {
+				jumpBuffered = true;
+			}
+		}
+		performJump = false;
 	}
 }

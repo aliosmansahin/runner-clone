@@ -29,5 +29,9 @@ private:
 	float maxY;
 	Vec2 jump;
 	bool isGrounded;
+
+	float maxDiffYToBufferJump;
+	bool jumpBuffered;
+	bool performJump;
 };
 
